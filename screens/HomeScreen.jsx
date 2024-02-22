@@ -2,6 +2,7 @@ import React from 'react'
 import { Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
+import CardComponent from '../components/CardComponent';
 
 const HomeScreen = () => {
   return (
@@ -25,19 +26,9 @@ const HomeScreen = () => {
         </View>
 
         <View>
-          <ScrollView 
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            style={style.typesCoffeBar}
-          >
-            <Text style={style.typesCoffeBarText}>All</Text>
-            <Text style={style.typesCoffeBarText}>American</Text>
-            <Text style={style.typesCoffeBarText}>Black Coffee</Text>
-            <Text style={style.typesCoffeBarText}>Coffee With Milk</Text>
-            <Text style={style.typesCoffeBarText}>Arabic Coffee</Text>
-            <Text style={style.typesCoffeBarText}>Colimbia Coffee</Text>
-          </ScrollView>
+          <CardComponent/>
         </View>
+
       </SafeAreaView>
     </ScrollView>
   )
