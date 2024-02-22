@@ -15,7 +15,7 @@ const InitialScreen = ({navigation}) => {
           <TouchableOpacity style={style.loginButton}>
             <Text 
               style={style.loginButtonText}
-              onPress={() => navigation.navigate('login')}
+              onPress={() => navigation.navigate('LoginScreen')}
             >
               Login
             </Text>
@@ -23,7 +23,7 @@ const InitialScreen = ({navigation}) => {
 
           <TouchableOpacity 
             style={style.registerButton}
-            onPress={() => navigation.navigate('register')}
+            onPress={() => navigation.navigate('RegisterScreen')}
           >
             <Text style={style.registerButtonText}>Resgister Now</Text>
           </TouchableOpacity>

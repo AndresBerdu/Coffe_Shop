@@ -16,7 +16,7 @@ const RegisterScreen = ({navigation}) => {
         <View>
           <TouchableOpacity 
             style={style.containerArrowBack}
-            onPress={() => navigation.navigate('initial')}
+            onPress={() => navigation.navigate('InitialScreen')}
           >
             <AntDesing name='arrowleft' style={style.arrowBack}/>
             <Text style={style.textArrowBack}>Back</Text>
@@ -33,7 +33,6 @@ const RegisterScreen = ({navigation}) => {
         <View style={style.containerEntry}>
           <Text 
             style={style.textEntry}
-            
           >
             Email
           </Text>
@@ -46,15 +45,9 @@ const RegisterScreen = ({navigation}) => {
             secureTextEntry
         />
         </View>
-        <View style={style.containerEntry}>
-          <Text style={style.textEntry}>Password</Text>
-          <TextInput
-            style={style.entry}
-            secureTextEntry
-        />
-        </View>
+
         <TouchableOpacity style={style.button}>
-          <Text style={style.buttonText}>Login</Text>
+          <Text style={style.buttonText}>Register Now</Text>
         </TouchableOpacity>
 
         <View style={style.linea}></View>
@@ -160,7 +153,8 @@ const style = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginHorizontal: 30,
-    marginTop: 40
+    marginTop: 40,
+    marginBottom: 60
   },
 
   buttonBrands: {

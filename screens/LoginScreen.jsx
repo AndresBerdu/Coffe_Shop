@@ -14,7 +14,7 @@ const LoginScreen = ({navigation}) => {
       <View>
         <TouchableOpacity 
           style={style.containerArrowBack}
-          onPress={() => navigation.navigate('initial')}
+          onPress={() => navigation.navigate('InitialScreen')}
         >
           <AntDesing name='arrowleft' style={style.arrowBack}/>
           <Text style={style.textArrowBack}>Back</Text>
@@ -35,7 +35,10 @@ const LoginScreen = ({navigation}) => {
           secureTextEntry
         />
       </View>
-      <TouchableOpacity style={style.button}>
+      <TouchableOpacity 
+        style={style.button}
+        onPress={() => navigation.navigate('TabNavigation')}
+      >
         <Text style={style.buttonText}>Login</Text>
       </TouchableOpacity>
 
@@ -131,7 +134,7 @@ const style = StyleSheet.create({
   },
 
   linea: {
-    borderBottomWidth: 1,
+    borderBottomWidth: 2,
     borderBottomColor: '#DDDDDD',
     marginTop: 60,
     marginHorizontal: 50,
