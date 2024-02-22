@@ -1,28 +1,42 @@
-import React from 'react'
-import { Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { ScrollView, TextInput } from 'react-native-gesture-handler';
-import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
-import CardComponent from '../components/CardComponent';
+import React from 'react';
+import { Image, SafeAreaView, StyleSheet, Text, View, ScrollView, TextInput, TouchableOpacity } from 'react-native';
 
-const HomeScreen = () => {
+//Icons
+import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
+//Screens
+import { ScrollCategoriesComponent } from '../components/ScrollCategoriesComponent';
+import { CardComponent } from '../components/CardComponent';
+
+const HomeScreen = ({navigation}) => {
   return (
     <ScrollView>
       <SafeAreaView style={style.containerSafeAreaView}>
-        <View>
+        <View style={style.containerImageProfileAndLogeOut}>
+            <TouchableOpacity 
+              onPress={()=>{ navigation.navigate('InitialScreen') }}
+              style={style.containerLogueOut}
+            >
+              <Ionicons name='exit-outline' style={style.iconLogueOut}/>
+              <Text style={style.textLogueOut}>Logue Out</Text>
+            </TouchableOpacity>
             <Image source={require('../assets/images/Avatar.jpg')} style={style.imageProfile}/>
         </View>
         
         <Text style={style.textTitle} >Find the best coffee for you</Text>
 
         <View style={style.inputContainer}>
-          <TouchableOpacity>
-            <FontAwesome6 name='magnifying-glass' style={style.inputSearchICon} />
-          </TouchableOpacity>
+          <FontAwesome6 name='magnifying-glass' style={style.inputSearchICon} />
           <TextInput 
             placeholder='Find Your Coffee'
             placeholderTextColor={'#343434'}
             style={style.inputSearch}
           />
+        </View>
+
+        <View>
+          <ScrollCategoriesComponent/>
         </View>
 
         <View>
@@ -47,8 +61,37 @@ const style = StyleSheet.create({
     paddingHorizontal: 25
   },
 
+  containerImageProfileAndLogeOut: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 30,
+    marginHorizontal: 30
+  },
+
+  containerLogueOut: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FF9311',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 200
+  },
+
+  iconLogueOut: {
+    color: '#FFFFFF',
+    fontSize: 30,
+    alignItems: 'center',
+    marginRight: 5
+  },
+
+  textLogueOut: {
+    color: '#FFFFFF',
+    fontSize: 15
+  },
+
   imageProfile: {
-    borderRadius: 100,
+    borderRadius: 20,
     borderWidth: 4,
     borderColor: '#FF9311',
     height: 70,
@@ -82,18 +125,8 @@ const style = StyleSheet.create({
   inputSearch: {
     fontSize: 16,
     color:'#000000'
-  },
-
-  typesCoffeBar: {
-    marginHorizontal: 30,
-    marginTop: 20
-  },
-
-  typesCoffeBarText: {
-    paddingHorizontal: 10,
-    fontSize: 20,
-    color: '#000000'
   }
+
 })
 
-export { HomeScreen }
+export { HomeScreen };
