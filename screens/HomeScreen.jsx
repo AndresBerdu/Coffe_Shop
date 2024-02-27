@@ -1,5 +1,13 @@
 import React from 'react';
-import { Image, SafeAreaView, StyleSheet, Text, View, ScrollView, TextInput, TouchableOpacity } from 'react-native';
+import { 
+  Image, 
+  SafeAreaView, 
+  StyleSheet, 
+  Text, View, 
+  ScrollView, 
+  TextInput, 
+  TouchableOpacity } 
+  from 'react-native';
 
 //Icons
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
@@ -40,7 +48,7 @@ const HomeScreen = ({navigation}) => {
         </View>
 
         <View>
-          <CardComponent/>
+          <CardComponent navigation={navigation}/>
         </View>
 
       </SafeAreaView>

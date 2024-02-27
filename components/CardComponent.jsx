@@ -1,27 +1,28 @@
 import React from 'react';
-import { Text, SafeAreaView, View, Image, FlatList, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { Text, SafeAreaView, View, Image, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-const CardComponent = () => {
+const CardComponent = ({navigation}) => {
   return (
-    <SafeAreaView>
-        <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-        >
+    <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+    >
+        <SafeAreaView>
             <View style={style.ComponentCardContainer}>
+                <TouchableOpacity onPress={()=>{ navigation.push('DetailsCoffeeScreen') }}>
                     <View style={style.cardContainer}>
-                        <Image source={require('../assets/images/Coffee1.jpg')} style={style.cardImage}/>
-                        <Text style={style.cardTitleText}>American Coffee</Text>
-                        <Text style={style.cardOwner}>Juan Valde</Text>
-                        <View style={style.cardPriceAndIcon}>
-                            <Text style={style.cardPrice}>$ 5.00</Text>
-                            <TouchableOpacity>
-                                <AntDesign name='plussquare' style={style.cardIcon}/>
-                            </TouchableOpacity>   
-                        </View>
+                            <Image source={require('../assets/images/Coffee1.jpg')} style={style.cardImage}/>
+                            <Text style={style.cardTitleText}>American Coffee</Text>
+                            <Text style={style.cardOwner}>Juan Valde</Text>
+                            <View style={style.cardPriceAndIcon}>
+                                <Text style={style.cardPrice}>$ 5.00</Text>
+                                <TouchableOpacity>
+                                    <AntDesign name='plussquare' style={style.cardIcon}/>
+                                </TouchableOpacity>   
+                            </View>
                     </View>
-
+                </TouchableOpacity>
                     <View style={style.cardContainer}>
                         <Image source={require('../assets/images/Coffee2.jpg')} style={style.cardImage}/>
                         <Text style={style.cardTitleText}>American Coffee</Text>
@@ -82,87 +83,8 @@ const CardComponent = () => {
                         </View>
                     </View>
             </View>
-        </ScrollView>
-
-        <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-        >
-            <View style={style.ComponentCardContainer}>
-                    <View style={style.cardContainer}>
-                        <Image source={require('../assets/images/Coffee1.jpg')} style={style.cardImage}/>
-                        <Text style={style.cardTitleText}>American Coffee</Text>
-                        <Text style={style.cardOwner}>Juan Valde</Text>
-                        <View style={style.cardPriceAndIcon}>
-                            <Text style={style.cardPrice}>$ 5.00</Text>
-                            <TouchableOpacity>
-                                <AntDesign name='plussquare' style={style.cardIcon}/>
-                            </TouchableOpacity>   
-                        </View>
-                    </View>
-
-                    <View style={style.cardContainer}>
-                        <Image source={require('../assets/images/Coffee2.jpg')} style={style.cardImage}/>
-                        <Text style={style.cardTitleText}>American Coffee</Text>
-                        <Text style={style.cardOwner}>Juan Valde</Text>
-                        <View style={style.cardPriceAndIcon}>
-                            <Text style={style.cardPrice}>$ 5.00</Text>
-                            <TouchableOpacity>
-                                <AntDesign name='plussquare' style={style.cardIcon}/>
-                            </TouchableOpacity>   
-                        </View>
-                    </View>
-
-                    <View style={style.cardContainer}>
-                        <Image source={require('../assets/images/Coffee3.jpg')} style={style.cardImage}/>
-                        <Text style={style.cardTitleText}>American Coffee</Text>
-                        <Text style={style.cardOwner}>Juan Valde</Text>
-                        <View style={style.cardPriceAndIcon}>
-                            <Text style={style.cardPrice}>$ 5.00</Text>
-                            <TouchableOpacity>
-                                <AntDesign name='plussquare' style={style.cardIcon}/>
-                            </TouchableOpacity>   
-                        </View>
-                    </View>
-
-                    <View style={style.cardContainer}>
-                        <Image source={require('../assets/images/Coffee4.jpg')} style={style.cardImage}/>
-                        <Text style={style.cardTitleText}>American Coffee</Text>
-                        <Text style={style.cardOwner}>Juan Valde</Text>
-                        <View style={style.cardPriceAndIcon}>
-                            <Text style={style.cardPrice}>$ 5.00</Text>
-                            <TouchableOpacity>
-                                <AntDesign name='plussquare' style={style.cardIcon}/>
-                            </TouchableOpacity>   
-                        </View>
-                    </View>
-
-                    <View style={style.cardContainer}>
-                        <Image source={require('../assets/images/Coffee5.jpg')} style={style.cardImage}/>
-                        <Text style={style.cardTitleText}>American Coffee</Text>
-                        <Text style={style.cardOwner}>Juan Valde</Text>
-                        <View style={style.cardPriceAndIcon}>
-                            <Text style={style.cardPrice}>$ 5.00</Text>
-                            <TouchableOpacity>
-                                <AntDesign name='plussquare' style={style.cardIcon}/>
-                            </TouchableOpacity>   
-                        </View>
-                    </View>
-
-                    <View style={style.cardContainer}>
-                        <Image source={require('../assets/images/Coffee6.jpg')} style={style.cardImage}/>
-                        <Text style={style.cardTitleText}>American Coffee</Text>
-                        <Text style={style.cardOwner}>Juan Valde</Text>
-                        <View style={style.cardPriceAndIcon}>
-                            <Text style={style.cardPrice}>$ 5.00</Text>
-                            <TouchableOpacity>
-                                <AntDesign name='plussquare' style={style.cardIcon}/>
-                            </TouchableOpacity>   
-                        </View>
-                    </View>
-            </View>
-        </ScrollView>
-    </SafeAreaView>
+        </SafeAreaView>
+    </ScrollView>
   )
 }
 
