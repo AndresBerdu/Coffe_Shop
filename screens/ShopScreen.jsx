@@ -1,12 +1,19 @@
 import React from 'react'
 import { Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
+import { ObjectCoffee } from '../components/ObjectCoffee';
+import { PayButton } from '../components/PayButton';
+
 const ShopScreen = () => {
   return (
     <SafeAreaView style={style.containerSafeAreaView}>
-        <View >
-            <Text>Screen Shop</Text>
-        </View>
+      <View style={style.containerComponents}>
+        <ObjectCoffee/>
+        <ObjectCoffee/>
+        <ObjectCoffee/>
+
+        <PayButton/>
+      </View>
     </SafeAreaView>
   )
 }
@@ -16,6 +23,7 @@ const style = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FF9311'
   },
+  
 
   containerView: {
     alignItems: 'center',

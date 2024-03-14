@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, ImageBackground, SafeAreaView, StyleSheet, View, TouchableOpacity, Text, ScrollView } from 'react-native'
+import { ImageBackground, SafeAreaView, StyleSheet, View, TouchableOpacity, Text, ScrollView } from 'react-native'
 
 import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -234,4 +234,4 @@ const style = StyleSheet.create({
     }
 })
 
-export default CoffeeInfoComponent
+export { CoffeeInfoComponent };

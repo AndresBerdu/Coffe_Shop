@@ -1,6 +1,12 @@
 import React from 'react';
 import { SafeAreaView, Text, View, StyleSheet, TextInput, TouchableOpacity, Image } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+
+//dependencies import
+import { Formik , useFormik } from 'formik';
+import  * as Yup from 'yup';
+
+//icons import
 import AntDesing from 'react-native-vector-icons/AntDesign';
 
 //images imports
@@ -10,6 +16,29 @@ const facebookLogo = require('../assets/images/facebook.png');
 const xLogo = require('../assets/images/x.png');
 
 const RegisterScreen = ({navigation}) => {
+
+  const formik = useFormik({
+    initialValues: {
+      Username: "",
+      Email: "",
+      Password: ""
+    },
+
+    validationSchema: Yup.object({
+      Username: Yup.string()
+                .min(8, "The username, should have minimum 8 characters")
+                .required("This field is obligatory"),
+      Email: Yup.string()
+              .min(11, "The email, should have minimum 11 characters")
+              .required("This field is obligatory"),
+      Password: Yup.string()
+                .min(8, "The password, should have minimum 8 charactes")
+                .required("This field is obligatory")
+    }),
+
+  })
+
+
   return (
     <ScrollView>
       <SafeAreaView style={style.containerSafeAreaView}>
@@ -22,33 +51,63 @@ const RegisterScreen = ({navigation}) => {
             <Text style={style.textArrowBack}>Back</Text>
           </TouchableOpacity>
         </View>
+
         <View style={style.containerView}>
           <Image style={style.image} source={logo}/>
         </View>
 
-        <View style={style.containerEntry}>
-          <Text style={style.textEntry}>Username</Text>
-          <TextInput style={style.entry}/>
-        </View>
-        <View style={style.containerEntry}>
-          <Text 
-            style={style.textEntry}
-          >
-            Email
-          </Text>
-          <TextInput style={style.entry}/>
-        </View>
-        <View style={style.containerEntry}>
-          <Text style={style.textEntry}>Password</Text>
-          <TextInput
-            style={style.entry}
-            secureTextEntry
-        />
-        </View>
+        <Formik
+          onSubmit={formik.handleSubmit}
+        >
+          <View style={style.containerEntry}>
+            <Text style={style.textEntry}>Username</Text>
+            {formik.touched.Username && formik.errors.Username ? (
+              <Text style={{fontSize:20, color:'red'}}>{formik.errors.Email}*</Text>
+            ): null}
+            <TextInput 
+              style={style.entry}
+              id="Username"
+              onChangeText={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.Username}
+            />
+          </View>
 
-        <TouchableOpacity style={style.button}>
-          <Text style={style.buttonText}>Register Now</Text>
-        </TouchableOpacity>
+          <View style={style.containerEntry}>
+            <Text style={style.textEntry}>Email</Text>
+            {formik.touched.Email && formik.errors.Email ? (
+              <Text style={{fontSize:20, color:'red'}}>{formik.errors.Email}*</Text>
+            ): null}
+            <TextInput 
+              style={style.entry}
+              id="Email"
+              onChangeText={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.Username}
+              keyboardType="email-address"
+            />
+          </View>
+
+          <View style={style.containerEntry}>
+            <Text style={style.textEntry}>Password</Text>
+            {formik.touched.Password && formik.errors.Password ? (
+              <Text style={{fontSize:20, color:'red'}}>{formik.errors.Password}*</Text>
+            ): null}
+            <TextInput
+              style={style.entry}
+              id="Password"
+              onChangeText={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.Username}
+              keyboardType="password"
+              secureTextEntry
+          />
+          </View>
+
+          <TouchableOpacity style={style.button}>
+            <Text style={style.buttonText}>Register Now</Text>
+          </TouchableOpacity>
+        </Formik>
 
         <View style={style.linea}></View>
 

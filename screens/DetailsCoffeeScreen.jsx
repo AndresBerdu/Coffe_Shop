@@ -1,7 +1,7 @@
 import React from 'react';
 import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-import CoffeeInfoComponent from '../components/CoffeeInfoComponent';
+import { CoffeeInfoComponent } from '../components/CoffeeInfoComponent';
 
 const DetailsCoffeeScreen = ({navigation}) => {
   return (
