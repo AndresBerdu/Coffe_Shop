@@ -1,9 +1,11 @@
 import React from 'react';
-import { SafeAreaView, Text, View, StyleSheet, TextInput, TouchableOpacity, Image } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
+import { SafeAreaView, Text, View, StyleSheet, TextInput, TouchableOpacity, Image, ScrollView } from 'react-native';
+
+//conection with databe
+import FirebaseContext from '../context/firebase/firebaseContext';
 
 //dependencies import
-import { Formik , useFormik } from 'formik';
+import { Formik } from 'formik';
 import  * as Yup from 'yup';
 
 //icons import
@@ -17,27 +19,19 @@ const xLogo = require('../assets/images/x.png');
 
 const RegisterScreen = ({navigation}) => {
 
-  const formik = useFormik({
-    initialValues: {
-      Username: "",
-      Email: "",
-      Password: ""
-    },
-
-    validationSchema: Yup.object({
-      Username: Yup.string()
-                .min(8, "The username, should have minimum 8 characters")
-                .required("This field is obligatory"),
-      Email: Yup.string()
-              .min(11, "The email, should have minimum 11 characters")
+  const registerValidationSchema = Yup.object({
+    username: Yup.string()
+              .min(8, "The username, should have minimum 8 characters")
               .required("This field is obligatory"),
-      Password: Yup.string()
-                .min(8, "The password, should have minimum 8 charactes")
-                .required("This field is obligatory")
-    }),
-
+    email: Yup.string()
+            .min(11, "The email, should have minimum 11 characters")
+            .required("This field is obligatory"),
+    password: Yup.string()
+              .required("This field is obligatory")
+              .matches(
+                "^(?=.*[A-Za-z])(?=.*d)(?=.*[@$!%*#?&])[A-Za-zd@$!%*#?&]{8,}$",
+                "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character")
   })
-
 
   return (
     <ScrollView>
@@ -56,58 +50,62 @@ const RegisterScreen = ({navigation}) => {
           <Image style={style.image} source={logo}/>
         </View>
 
-        <Formik
-          onSubmit={formik.handleSubmit}
-        >
-          <View style={style.containerEntry}>
-            <Text style={style.textEntry}>Username</Text>
-            {formik.touched.Username && formik.errors.Username ? (
-              <Text style={{fontSize:20, color:'red'}}>{formik.errors.Email}*</Text>
-            ): null}
-            <TextInput 
-              style={style.entry}
-              id="Username"
-              onChangeText={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.Username}
-            />
-          </View>
+          <Formik
+            initialValues={{username: "", email: "", password: ""}}
+            validationSchema={registerValidationSchema}
+            onSubmit={values => console.log(values)}
+          >
+            {({ handleChange, handleBlur, handleSubmit, values, touched, errors }) => (
+              <View>
+                <View style={style.containerEntry}>
+                  <Text style={style.textEntry}>Username</Text>
+                  <TextInput 
+                    style={style.entry}
+                    id="username"
+                    onChangeText={handleChange("username")}
+                    onBlur={handleBlur("username")}
+                    value={values.username}
+                  />
+                  {touched.username && errors.username ? (
+                    <Text style={{fontSize:16, color:'red'}}>{errors.username}*</Text>
+                  ): null}
+                </View>
 
-          <View style={style.containerEntry}>
-            <Text style={style.textEntry}>Email</Text>
-            {formik.touched.Email && formik.errors.Email ? (
-              <Text style={{fontSize:20, color:'red'}}>{formik.errors.Email}*</Text>
-            ): null}
-            <TextInput 
-              style={style.entry}
-              id="Email"
-              onChangeText={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.Username}
-              keyboardType="email-address"
-            />
-          </View>
+                <View style={style.containerEntry}>
+                  <Text style={style.textEntry}>Email</Text>
+                  <TextInput 
+                    style={style.entry}
+                    id="email"
+                    onChangeText={handleChange("email")}
+                    onBlur={handleBlur("email")}
+                    value={values.email}
+                  />
+                  {touched.email && errors.email ? (
+                    <Text style={{fontSize:16, color:'red'}}>{errors.email}*</Text>
+                  ): null}
+                </View>
 
-          <View style={style.containerEntry}>
-            <Text style={style.textEntry}>Password</Text>
-            {formik.touched.Password && formik.errors.Password ? (
-              <Text style={{fontSize:20, color:'red'}}>{formik.errors.Password}*</Text>
-            ): null}
-            <TextInput
-              style={style.entry}
-              id="Password"
-              onChangeText={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.Username}
-              keyboardType="password"
-              secureTextEntry
-          />
-          </View>
+                <View style={style.containerEntry}>
+                  <Text style={style.textEntry}>Password</Text>
+                  <TextInput
+                    style={style.entry}
+                    id="password"
+                    onChangeText={handleChange("password")}
+                    onBlur={handleBlur("password")}
+                    value={values.password}
+                    secureTextEntry
+                  />
+                  {touched.password && errors.password ? (
+                    <Text style={{fontSize:16, color:'red'}}>{errors.password}*</Text>
+                  ): null}
+                </View>
 
-          <TouchableOpacity style={style.button}>
-            <Text style={style.buttonText}>Register Now</Text>
-          </TouchableOpacity>
-        </Formik>
+                <TouchableOpacity style={style.button} onPress={handleSubmit} title="Submit">
+                  <Text style={style.buttonText}>Register Now</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+          </Formik>
 
         <View style={style.linea}></View>
 
