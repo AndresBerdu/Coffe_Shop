@@ -9,8 +9,6 @@ const ShopScreen = () => {
     <SafeAreaView style={style.containerSafeAreaView}>
       <View style={style.containerComponents}>
         <ObjectCoffee/>
-        <ObjectCoffee/>
-        <ObjectCoffee/>
 
         <PayButton/>
       </View>

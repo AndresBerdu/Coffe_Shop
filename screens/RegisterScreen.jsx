@@ -1,7 +1,8 @@
-import React from 'react';
-import { SafeAreaView, Text, View, StyleSheet, TextInput, TouchableOpacity, Image, ScrollView } from 'react-native';
+import React, { useState, useContext } from 'react';
+import { SafeAreaView, Text, View, StyleSheet, TextInput, TouchableOpacity, Image, ScrollView, Alert } from 'react-native';
 
 //conection with databe
+import firebase from '../firebase/firebase';
 import FirebaseContext from '../context/firebase/firebaseContext';
 
 //dependencies import
@@ -19,19 +20,57 @@ const xLogo = require('../assets/images/x.png');
 
 const RegisterScreen = ({navigation}) => {
 
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
   const registerValidationSchema = Yup.object({
     username: Yup.string()
-              .min(8, "The username, should have minimum 8 characters")
-              .required("This field is obligatory"),
+              .min(8, "The username, must have minimum 8 characters")
+              .required("Pleas, Enter your Username"),
     email: Yup.string()
-            .min(11, "The email, should have minimum 11 characters")
-            .required("This field is obligatory"),
+            .min(11, "The email, must have minimum 11 characters")
+            .required("Pleas, Enter your Email"),
     password: Yup.string()
-              .required("This field is obligatory")
-              .matches(
-                "^(?=.*[A-Za-z])(?=.*d)(?=.*[@$!%*#?&])[A-Za-zd@$!%*#?&]{8,}$",
-                "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character")
+              .required("Pleas, Enter your Password")
+              .matches(/\w*[a-z]\w*/,  "Password must have a small letter")
+              .matches(/\w*[A-Z]\w*/,  "Password must have a capital letter")
+              .matches(/\d/, "Password must have a number")
+              .matches(/[!@#$%^&*()\-_"=+{}; :,<.>]/, "Password must have a special character")
+              .min(8, ({ min }) => `Password must be at least ${min} characters`)
   })
+
+  const handleUserSubmit = async () => {
+
+    const { data } = useContext(FirebaseContext);
+  
+    const user = {
+      username: username,
+      email: email,
+      password: password
+    }
+
+    const usernameDuplicate = await data.find((username) => username.username === username);
+    const emailDuplicate = await data.find((email) => email.username === email);
+
+    if(username === usernameDuplicate){
+      Alert.alert(`The Username ${username} is already logged`);
+    } else {
+      if(email === emailDuplicate){
+        Alert.alert(`The Username ${email} is already logged`)
+      } else {
+        try {
+          firebase.database.collection('users').add(user);
+          setTimeout(() => {
+            navigation.navigate('InitialScreen');
+          }, 1000)
+          Alert.alert("Your account has been register")
+        } catch (error) {
+          Alert.alert("Has been error, try again last time");
+        }
+      }
+    }
+  }
 
   return (
     <ScrollView>
@@ -50,62 +89,63 @@ const RegisterScreen = ({navigation}) => {
           <Image style={style.image} source={logo}/>
         </View>
 
-          <Formik
-            initialValues={{username: "", email: "", password: ""}}
-            validationSchema={registerValidationSchema}
-            onSubmit={values => console.log(values)}
-          >
-            {({ handleChange, handleBlur, handleSubmit, values, touched, errors }) => (
-              <View>
-                <View style={style.containerEntry}>
-                  <Text style={style.textEntry}>Username</Text>
-                  <TextInput 
-                    style={style.entry}
-                    id="username"
-                    onChangeText={handleChange("username")}
-                    onBlur={handleBlur("username")}
-                    value={values.username}
-                  />
-                  {touched.username && errors.username ? (
-                    <Text style={{fontSize:16, color:'red'}}>{errors.username}*</Text>
-                  ): null}
-                </View>
-
-                <View style={style.containerEntry}>
-                  <Text style={style.textEntry}>Email</Text>
-                  <TextInput 
-                    style={style.entry}
-                    id="email"
-                    onChangeText={handleChange("email")}
-                    onBlur={handleBlur("email")}
-                    value={values.email}
-                  />
-                  {touched.email && errors.email ? (
-                    <Text style={{fontSize:16, color:'red'}}>{errors.email}*</Text>
-                  ): null}
-                </View>
-
-                <View style={style.containerEntry}>
-                  <Text style={style.textEntry}>Password</Text>
-                  <TextInput
-                    style={style.entry}
-                    id="password"
-                    onChangeText={handleChange("password")}
-                    onBlur={handleBlur("password")}
-                    value={values.password}
-                    secureTextEntry
-                  />
-                  {touched.password && errors.password ? (
-                    <Text style={{fontSize:16, color:'red'}}>{errors.password}*</Text>
-                  ): null}
-                </View>
-
-                <TouchableOpacity style={style.button} onPress={handleSubmit} title="Submit">
-                  <Text style={style.buttonText}>Register Now</Text>
-                </TouchableOpacity>
+        <Formik
+          initialValues={{username: "", email: "", password: ""}}
+          validationSchema={registerValidationSchema}
+          onSubmit={handleUserSubmit}
+        >
+          {({ handleChange, handleBlur, handleSubmit, values, touched, errors }) => (
+            <View>
+              <View style={style.containerEntry}>
+                <Text style={style.textEntry}>Username</Text>
+                <TextInput 
+                  style={style.entry}
+                  id="username"
+                  onChangeText={(text) => {handleChange("username")(text) ; (text) => setUsername(text)}}
+                  onBlur={handleBlur("username")}
+                  value={values.username}
+                />
+                {touched.username && errors.username ? (
+                  <Text style={{fontSize:16, color:'red'}}>{errors.username}*</Text>
+                ): null}
               </View>
-            )}
-          </Formik>
+
+              <View style={style.containerEntry}>
+                <Text style={style.textEntry}>Email</Text>
+                <TextInput 
+                  style={style.entry}
+                  id="email"
+                  keyboardType="email-address"
+                  onChangeText={(text) => {handleChange("email")(text) ; (text) => setEmail(text)}}
+                  onBlur={handleBlur("email")}
+                  value={values.email}
+                />
+                {touched.email && errors.email ? (
+                  <Text style={{fontSize:16, color:'red'}}>{errors.email}*</Text>
+                ): null}
+              </View>
+
+              <View style={style.containerEntry}>
+                <Text style={style.textEntry}>Password</Text>
+                <TextInput
+                  style={style.entry}
+                  id="password"
+                  onChangeText={(text) => {handleChange("password")(text) ; (text) => setPassword(text)}}
+                  onBlur={handleBlur("password")}
+                  value={values.password}
+                  secureTextEntry
+                />
+                {touched.password && errors.password ? (
+                  <Text style={{fontSize:16, color:'red'}}>{errors.password}*</Text>
+                ): null}
+              </View>
+
+              <TouchableOpacity style={style.button} onPress={handleUserSubmit && handleSubmit} title="Submit">
+                <Text style={style.buttonText}>Register Now</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+        </Formik>
 
         <View style={style.linea}></View>
 
@@ -154,7 +194,7 @@ const style = StyleSheet.create({
 
   image: {
     width: 200,
-    height: 110,
+    height: 110
   },
 
   title: {
@@ -181,7 +221,7 @@ const style = StyleSheet.create({
     marginVertical: 3,
     borderRadius: 5,
     backgroundColor: '#DDDDDD',
-    color: '#000000',
+    color: '#000000'
   },
 
   button: {
@@ -203,7 +243,7 @@ const style = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#DDDDDD',
     marginTop: 60,
-    marginHorizontal: 50,
+    marginHorizontal: 50
   },
 
   containerButtonBrands: {
@@ -224,7 +264,7 @@ const style = StyleSheet.create({
 
   logoBrands: {
     width: 30,
-    height: 30,
+    height: 30
   }
 
 });

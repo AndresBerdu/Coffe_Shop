@@ -1,6 +1,13 @@
-import React from 'react';
-import { SafeAreaView, Text, View, StyleSheet, TextInput, TouchableOpacity, Image } from 'react-native';
+import React, { useState, useContext } from 'react';
+import { SafeAreaView, Text, View, StyleSheet, TextInput, TouchableOpacity, Image, Alert } from 'react-native';
 import AntDesing from 'react-native-vector-icons/AntDesign';
+
+//conection with databe
+import FirebaseContext from '../context/firebase/firebaseContext';
+
+//dependencies import
+import { Formik } from 'formik';
+import  * as Yup from 'yup';
 
 //images imports
 const logo = require('../assets/images/logo.png');
@@ -9,6 +16,40 @@ const facebookLogo = require('../assets/images/facebook.png');
 const xLogo = require('../assets/images/x.png');
 
 const LoginScreen = ({navigation}) => {
+
+  const { users } = useContext(FirebaseContext);
+
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const loginValidationSchema = Yup.object({
+    username: Yup.string()
+              .required("Pleas, Enter your Username"),
+    password: Yup.string()
+              .required("Pleas, Enter your Password")
+  })
+
+  const handleLogin = async () => {
+    try {
+      const user = await users.find((user) => user.username === username);
+      console.log(user)
+
+      if(!user){
+        Alert.alert('Error', 'Username not found');
+      } else {
+        if (user.password === password) {
+          navigation.navigate('LoginScreen');
+          setUsername('');
+          setPassword('');
+        } else {
+          Alert.alert('Error', 'Incorrect password');
+        }
+      }
+    } catch (error) {
+      Alert.alert("Has been error, try again last time");
+    }
+  }
+
   return (
     <SafeAreaView style={style.containerSafeAreaView}>
       <View>
@@ -24,23 +65,51 @@ const LoginScreen = ({navigation}) => {
         <Image style={style.image} source={logo}/>
       </View>
 
-      <View style={style.containerEntry}>
-        <Text style={style.textEntry}>Username</Text>
-        <TextInput style={style.entry}/>
-      </View>
-      <View style={style.containerEntry}>
-        <Text style={style.textEntry}>Password</Text>
-        <TextInput
-          style={style.entry}
-          secureTextEntry
-        />
-      </View>
-      <TouchableOpacity 
-        style={style.button}
-        onPress={() => navigation.navigate('TabNavigation')}
+      <Formik
+        initialValues={{username: "", password: ""}}
+        validationSchema={loginValidationSchema}
+        onSubmit={handleLogin}
       >
-        <Text style={style.buttonText}>Login</Text>
-      </TouchableOpacity>
+        {({ handleChange, handleBlur, handleSubmit, values, touched, errors }) => (
+          <View>
+            <View style={style.containerEntry}>
+              <Text style={style.textEntry}>Username</Text>
+              <TextInput 
+                style={style.entry}
+                id="username"
+                onChangeText={(text) => {handleChange("username")(text) ; (text) => setUsername(text)}}
+                onBlur={handleBlur("username")}
+                value={values.username}
+              />
+              {touched.username && errors.username ? (
+                <Text style={{fontSize:16, color:'red'}}>{errors.username}*</Text>
+              ): null}
+            </View>
+
+            <View style={style.containerEntry}>
+              <Text style={style.textEntry}>Password</Text>
+              <TextInput
+                style={style.entry}
+                id="password"
+                onChangeText={(text) => {handleChange("password")(text) ; (text) => setPassword(text)}}
+                onBlur={handleBlur("password")}
+                value={values.password}
+                secureTextEntry
+              />
+              {touched.password && errors.password ? (
+                <Text style={{fontSize:16, color:'red'}}>{errors.password}*</Text>
+              ): null}
+            </View>
+
+            <TouchableOpacity 
+              style={style.button}
+              onPress={handleSubmit && handleLogin}
+            >
+              <Text style={style.buttonText}>Login</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+      </Formik>
 
       <View style={style.linea}></View>
       

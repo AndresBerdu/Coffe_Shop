@@ -11,7 +11,7 @@ const FirebaseStage = (props) => {
     const [state, dispatch] = useReducer(FirebaseReducer, initialState)
 
     useEffect(() => {
-        const userRef = firebase.database.collection('Register');
+        const userRef = firebase.database.collection('users');
         const userUnsub = userRef.onSnapshot((snapshot) => {
             const userData = snapshot.docs.map((doc) => doc.data())
             console.log('Users retrieved:', userData);
@@ -20,7 +20,6 @@ const FirebaseStage = (props) => {
 
         return () => {
             userUnsub()
-            tweetsUnsub()
         };
 
     }, []);
