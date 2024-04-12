@@ -1,9 +1,8 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { SafeAreaView, Text, View, StyleSheet, TextInput, TouchableOpacity, Image, ScrollView, Alert } from 'react-native';
 
 //conection with databe
 import firebase from '../firebase/firebase';
-import FirebaseContext from '../context/firebase/firebaseContext';
 
 //dependencies import
 import { Formik } from 'formik';
@@ -41,34 +40,21 @@ const RegisterScreen = ({navigation}) => {
   })
 
   const handleUserSubmit = async () => {
-
-    const { data } = useContext(FirebaseContext);
   
     const user = {
       username: username,
       email: email,
       password: password
     }
-
-    const usernameDuplicate = await data.find((username) => username.username === username);
-    const emailDuplicate = await data.find((email) => email.username === email);
-
-    if(username === usernameDuplicate){
-      Alert.alert(`The Username ${username} is already logged`);
-    } else {
-      if(email === emailDuplicate){
-        Alert.alert(`The Username ${email} is already logged`)
-      } else {
-        try {
-          firebase.database.collection('users').add(user);
-          setTimeout(() => {
-            navigation.navigate('InitialScreen');
-          }, 1000)
-          Alert.alert("Your account has been register")
-        } catch (error) {
-          Alert.alert("Has been error, try again last time");
-        }
-      }
+    
+    try {
+      await firebase.database.collection('users').add(user);
+      setTimeout(() => {
+        navigation.navigate('InitialScreen');
+      }, 1000)
+      Alert.alert("Your account has been register")
+    } catch (error) {
+      Alert.alert("Has been error, try again last time");
     }
   }
 
@@ -101,7 +87,7 @@ const RegisterScreen = ({navigation}) => {
                 <TextInput 
                   style={style.entry}
                   id="username"
-                  onChangeText={(text) => {handleChange("username")(text) ; (text) => setUsername(text)}}
+                  onChangeText={(text) => {handleChange("username")(text) ; setUsername(text)}}
                   onBlur={handleBlur("username")}
                   value={values.username}
                 />
@@ -116,7 +102,7 @@ const RegisterScreen = ({navigation}) => {
                   style={style.entry}
                   id="email"
                   keyboardType="email-address"
-                  onChangeText={(text) => {handleChange("email")(text) ; (text) => setEmail(text)}}
+                  onChangeText={(text) => {handleChange("email")(text) ; setEmail(text)}}
                   onBlur={handleBlur("email")}
                   value={values.email}
                 />
@@ -130,7 +116,7 @@ const RegisterScreen = ({navigation}) => {
                 <TextInput
                   style={style.entry}
                   id="password"
-                  onChangeText={(text) => {handleChange("password")(text) ; (text) => setPassword(text)}}
+                  onChangeText={(text) => {handleChange("password")(text) ; setPassword(text);}}
                   onBlur={handleBlur("password")}
                   value={values.password}
                   secureTextEntry

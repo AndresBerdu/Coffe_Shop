@@ -17,7 +17,8 @@ const xLogo = require('../assets/images/x.png');
 
 const LoginScreen = ({navigation}) => {
 
-  const { users } = useContext(FirebaseContext);
+  const { state } = useContext(FirebaseContext);
+  const { users } = state;
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -29,16 +30,18 @@ const LoginScreen = ({navigation}) => {
               .required("Pleas, Enter your Password")
   })
 
-  const handleLogin = async () => {
+  const handleLogin = () => {
     try {
-      const user = await users.find((user) => user.username === username);
-      console.log(user)
+      console.log(users);
+      console.log(username);
+      const user = users.find((user) => user.username === username);
+      console.log(user);
 
       if(!user){
         Alert.alert('Error', 'Username not found');
       } else {
         if (user.password === password) {
-          navigation.navigate('LoginScreen');
+          navigation.navigate('HomeScreen');
           setUsername('');
           setPassword('');
         } else {
@@ -77,7 +80,7 @@ const LoginScreen = ({navigation}) => {
               <TextInput 
                 style={style.entry}
                 id="username"
-                onChangeText={(text) => {handleChange("username")(text) ; (text) => setUsername(text)}}
+                onChangeText={(text) => {handleChange("username")(text) ; setUsername(text)}}
                 onBlur={handleBlur("username")}
                 value={values.username}
               />
@@ -91,7 +94,7 @@ const LoginScreen = ({navigation}) => {
               <TextInput
                 style={style.entry}
                 id="password"
-                onChangeText={(text) => {handleChange("password")(text) ; (text) => setPassword(text)}}
+                onChangeText={(text) => {handleChange("password")(text) ; setPassword(text)}}
                 onBlur={handleBlur("password")}
                 value={values.password}
                 secureTextEntry
@@ -114,7 +117,9 @@ const LoginScreen = ({navigation}) => {
       <View style={style.linea}></View>
       
       <View style={style.containerButtonBrands}>
-        <TouchableOpacity style={style.buttonBrands}>
+        <TouchableOpacity 
+          style={style.buttonBrands}
+        >
           <Image style={style.logoBrands} source={googleLogo} />
         </TouchableOpacity>
         <TouchableOpacity style={style.buttonBrands}>

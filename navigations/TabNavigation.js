@@ -8,6 +8,7 @@ import 'react-native-gesture-handler';
 //Import Sreens
 import { HomeScreen } from "../screens/HomeScreen"; 
 import { ShopScreen } from "../screens/ShopScreen"; 
+import { FavoriteScreen } from "../screens/FavoriteScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -26,7 +27,7 @@ const TabNavigation = () => {
                 name='HomeScreen' 
                 component={HomeScreen}
                 options={{
-                    tabBarIcon: ({ color, size}) => (
+                    tabBarIcon: ({ color}) => (
                         <FontAwesome6 name='house-chimney' color={color} size={30}/>
                     ),
                     headerShown: false,
@@ -37,13 +38,14 @@ const TabNavigation = () => {
                 name='ShopScreen' 
                 component={ShopScreen}
                 options={{
-                    tabBarIcon: ({color, size}) => (
+                    tabBarIcon: ({color}) => (
                         <FontAwesome6 name='cart-shopping' color={color} size={30}/>
                     ),
                     headerShown: false,
                     tabBarInactiveTintColor: '#DB5F03'
                 }}
             />
+            
         </Tab.Navigator>
     )
 }
