@@ -13,9 +13,10 @@ import {
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-//Screens
+//Comoponents
 import { ScrollCategoriesComponent } from '../components/ScrollCategoriesComponent';
 import { CardComponent } from '../components/CardComponent';
+import { PhotoPerfilComponent } from '../components/PhotoPerfilComponent';
 
 const HomeScreen = ({navigation}) => {
   return (
@@ -29,7 +30,10 @@ const HomeScreen = ({navigation}) => {
               <Ionicons name='exit-outline' style={style.iconLogueOut}/>
               <Text style={style.textLogueOut}>Logue Out</Text>
             </TouchableOpacity>
-            <Image source={require('../assets/images/Avatar.jpg')} style={style.imageProfile}/>
+
+            <TouchableOpacity>
+              <PhotoPerfilComponent/>
+            </TouchableOpacity>
         </View>
         
         <Text style={style.textTitle} >Find the best coffee for you</Text>

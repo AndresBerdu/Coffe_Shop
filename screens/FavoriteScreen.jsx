@@ -1,12 +1,13 @@
 import React from 'react'
-import { SafeAreaView, View } from 'react-native';
+import { SafeAreaView, View, StyleSheet, Text } from 'react-native';
 import { CardComponent } from '../components/CardComponent';
 
 const FavoriteScreen = () => {
+
   return (
     <SafeAreaView>
       <View>
-        <CardComponent/>
+        <Text>Hola</Text>
       </View>
     </SafeAreaView>
   )

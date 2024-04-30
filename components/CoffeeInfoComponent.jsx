@@ -12,7 +12,7 @@ const CoffeeInfoComponent = ({navigation}) => {
     <SafeAreaView>
       <ScrollView>
         <ImageBackground
-            source={require('../assets/images/Coffee1.jpg')}
+            source={require('../assets/images/Coffee3.jpg')}
             style={style.coffeeImage}
         >
           <View style={style.headerContainer}>

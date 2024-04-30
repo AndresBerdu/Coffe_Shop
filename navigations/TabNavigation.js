@@ -27,13 +27,26 @@ const TabNavigation = () => {
                 name='HomeScreen' 
                 component={HomeScreen}
                 options={{
-                    tabBarIcon: ({ color}) => (
+                    tabBarIcon: ({color}) => (
                         <FontAwesome6 name='house-chimney' color={color} size={30}/>
                     ),
                     headerShown: false,
                     tabBarInactiveTintColor: '#DB5F03'
                 }}
             />
+
+            <Tab.Screen
+                name='FavoriteScreen'
+                component={FavoriteScreen}
+                options={{
+                    tabBarIcon: ({color}) => (
+                        <FontAwesome6 name='heart' color={color} size={30}/>
+                    ),
+                    headerShown: false,
+                    tabBarInactiveTintColor: '#DB5F03'
+                }}
+            />
+
             <Tab.Screen 
                 name='ShopScreen' 
                 component={ShopScreen}

@@ -12,7 +12,6 @@ import FirebaseStage from "../context/firebase/firebaseStage";
 import { InitialScreen } from "../screens/InitialScreen";
 import { LoginScreen } from "../screens/LoginScreen";
 import { RegisterScreen } from "../screens/RegisterScreen";
-import { DetailsCoffeeScreen } from "../screens/DetailsCoffeeScreen";
 
 const Stack = createStackNavigator();
 
@@ -47,13 +46,6 @@ const Navigation = () => {
                     <Stack.Screen
                         name="TabNavigation"
                         component={TabNavigation}
-                        options={{
-                            headerShown: false
-                        }}
-                    />
-                    <Stack.Screen
-                        name="DetailsCoffeeScreen"
-                        component={DetailsCoffeeScreen}
                         options={{
                             headerShown: false
                         }}

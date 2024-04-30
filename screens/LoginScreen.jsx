@@ -1,8 +1,9 @@
 import React, { useState, useContext } from 'react';
 import { SafeAreaView, Text, View, StyleSheet, TextInput, TouchableOpacity, Image, Alert } from 'react-native';
+
 import AntDesing from 'react-native-vector-icons/AntDesign';
 
-//conection with databe
+//firebase context import
 import FirebaseContext from '../context/firebase/firebaseContext';
 
 //dependencies import
@@ -32,16 +33,13 @@ const LoginScreen = ({navigation}) => {
 
   const handleLogin = () => {
     try {
-      console.log(users);
-      console.log(username);
       const user = users.find((user) => user.username === username);
-      console.log(user);
 
       if(!user){
         Alert.alert('Error', 'Username not found');
       } else {
         if (user.password === password) {
-          navigation.navigate('HomeScreen');
+          navigation.navigate('TabNavigation');
           setUsername('');
           setPassword('');
         } else {
